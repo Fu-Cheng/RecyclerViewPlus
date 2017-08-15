@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RecyclerViewPlusLibrary</string>
+
+    <string name="loadmore_loading_hint">正在加载更多数据</string>
+
+    <string name="loadmore_failed_hint">加载失败，点击重新加载</string>
+</resources>
