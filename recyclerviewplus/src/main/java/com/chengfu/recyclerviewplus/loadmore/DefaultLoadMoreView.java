@@ -47,7 +47,7 @@ public class DefaultLoadMoreView extends LinearLayout implements ILoadMoreView {
 		textView=new TextView(context, attrs, defStyleAttr);
 
 		textView.setText(context.getString(R.string.loadmore_loading_hint));
-		reLoad.setBackgroundResource(R.mipmap.ic_refresh_black);
+		reLoad.setBackgroundResource(R.drawable.ic_refresh_black);
 
 
 		addView(progressBar,new LinearLayout.LayoutParams(100, 100));

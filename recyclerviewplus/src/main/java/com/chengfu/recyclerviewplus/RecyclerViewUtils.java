@@ -1,90 +1,88 @@
 package com.chengfu.recyclerviewplus;
 
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.chengfu.recyclerviewplus.adapter.HeaderAndFooterRecyclerViewAdapter;
+import com.chengfu.recyclerviewplus.loadmore.EndlessRecyclerOnScrollListener;
 
 /**
- * Created by cundong on 2015/10/22.
- *
- * RecyclerView设置Header/Footer用到的工具类
+ * Created by ChengFu on 2017/8/17.
+ * <p>
+ * a util for recyclerView to set header adn footer
  */
 public class RecyclerViewUtils {
 
     /**
-     * 设置HeaderView
+     * the recyclerView has header view
      *
      * @param recyclerView
-     * @param view
+     * @return if the recyclerView has header view,return true,else return false
      */
-    public static void setHeaderView(RecyclerView recyclerView, View view) {
-        RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
-
-        if (outerAdapter == null || !(outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter)) {
-            return;
-        }
-
-        HeaderAndFooterRecyclerViewAdapter headerAndFooterAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
-        if (headerAndFooterAdapter.getHeaderViewsCount() == 0) {
-            headerAndFooterAdapter.addHeaderView(view);
-        }
-    }
-    
-    public static boolean hasHeaderView(RecyclerView recyclerView, View view) {
+    public static boolean hasHeaderView(RecyclerView recyclerView) {
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
 
         if (outerAdapter == null || !(outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter)) {
             return false;
         }
 
-        HeaderAndFooterRecyclerViewAdapter headerAndFooterAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
-        if (headerAndFooterAdapter.getHeaderView()==view) {
-        	return true;
-        }
-        return false;
+        HeaderAndFooterRecyclerViewAdapter hafRecyclerViewAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
+        return hafRecyclerViewAdapter.hasHeader();
     }
 
     /**
-     * 设置FooterView
+     * set the recyclerView header view
      *
      * @param recyclerView
      * @param view
      */
-    public static void setFooterView(RecyclerView recyclerView, View view) {
+    public static void setHeaderView(RecyclerView recyclerView, View view) {
+        setHeaderView(recyclerView, view, false);
+    }
+
+    /**
+     * set the recyclerView header view
+     *
+     * @param recyclerView
+     * @param view
+     * @param scrollToTop
+     */
+    public static void setHeaderView(RecyclerView recyclerView, View view, boolean scrollToTop) {
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
 
         if (outerAdapter == null || !(outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter)) {
             return;
         }
 
-        HeaderAndFooterRecyclerViewAdapter headerAndFooterAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
-        if (headerAndFooterAdapter.getFooterViewsCount() == 0) {
-            headerAndFooterAdapter.addFooterView(view);
-        }
-    }
+        HeaderAndFooterRecyclerViewAdapter hafRecyclerViewAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
+        hafRecyclerViewAdapter.setHeaderView(view);
 
-    /**
-     * 移除FooterView
-     *
-     * @param recyclerView
-     */
-    public static void removeFooterView(RecyclerView recyclerView) {
-
-        RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
-
-        if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
-
-            int footerViewCounter = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getFooterViewsCount();
-            if (footerViewCounter > 0) {
-                View footerView = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getFooterView();
-                ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).removeFooterView(footerView);
+        if (scrollToTop) {
+            recyclerView.getLayoutManager();
+            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+            int firstVisibleItemPosition = -1;
+            if (layoutManager instanceof LinearLayoutManager) {
+                firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+            } else if (layoutManager instanceof GridLayoutManager) {
+                firstVisibleItemPosition = ((GridLayoutManager) layoutManager).findFirstVisibleItemPosition();
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
+                int[] firstPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                staggeredGridLayoutManager.findFirstVisibleItemPositions(firstPositions);
+                firstVisibleItemPosition = findMin(firstPositions);
+            }
+            if (firstVisibleItemPosition == 0) {
+                recyclerView.scrollToPosition(0);
             }
         }
     }
 
+
     /**
-     * 移除HeaderView
+     * remove the recyclerView header view
      *
      * @param recyclerView
      */
@@ -92,53 +90,159 @@ public class RecyclerViewUtils {
 
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
 
-        if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
-
-            int headerViewCounter = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderViewsCount();
-            if (headerViewCounter > 0) {
-                View headerView = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderView();
-                ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).removeHeaderView(headerView);
-            }
+        if (outerAdapter == null && !(outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter)) {
+            return;
         }
+        HeaderAndFooterRecyclerViewAdapter hafRecyclerViewAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
+        hafRecyclerViewAdapter.removeHeaderView();
     }
 
     /**
-     * 请使用本方法替代RecyclerView.ViewHolder的getLayoutPosition()方法
+     * the recyclerView has footer view
+     *
+     * @param recyclerView
+     * @return if the recyclerView has footer view,return true,else return false
+     */
+    public static boolean hasFooterView(RecyclerView recyclerView) {
+        RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
+
+        if (outerAdapter == null || !(outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter)) {
+            return false;
+        }
+
+        HeaderAndFooterRecyclerViewAdapter hafRecyclerViewAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
+        return hafRecyclerViewAdapter.hasFooter();
+    }
+
+    /**
+     * set recyclerView has footer view
+     *
+     * @param recyclerView
+     * @param view
+     */
+    public static void setFooterView(RecyclerView recyclerView, View view) {
+        setFooterView(recyclerView, view, false);
+    }
+
+    /**
+     * set recyclerView has footer view
+     *
+     * @param recyclerView
+     * @param view
+     * @param scrollToBottom
+     */
+    public static void setFooterView(RecyclerView recyclerView, View view, boolean scrollToBottom) {
+        RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
+
+        if (outerAdapter == null || !(outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter)) {
+            return;
+        }
+
+        HeaderAndFooterRecyclerViewAdapter hafRecyclerViewAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
+        hafRecyclerViewAdapter.setFooterView(view);
+
+        if (scrollToBottom) {
+            recyclerView.getLayoutManager();
+            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+            int lastVisibleItemPosition = -1;
+            if (layoutManager instanceof LinearLayoutManager) {
+                lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+            } else if (layoutManager instanceof GridLayoutManager) {
+                lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
+                int[] firstPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                staggeredGridLayoutManager.findLastVisibleItemPositions(firstPositions);
+                lastVisibleItemPosition = findMax(firstPositions);
+            }
+            System.out.println(lastVisibleItemPosition);
+            if (lastVisibleItemPosition == outerAdapter.getItemCount() - 2) {
+                recyclerView.scrollToPosition(outerAdapter.getItemCount() - 1);
+            }
+        }
+
+    }
+
+    /**
+     * remove recyclerView has footer view
+     *
+     * @param recyclerView
+     */
+    public static void removeFooterView(RecyclerView recyclerView) {
+
+        RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
+
+        if (outerAdapter == null && !(outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter)) {
+            return;
+        }
+        HeaderAndFooterRecyclerViewAdapter hafRecyclerViewAdapter = (HeaderAndFooterRecyclerViewAdapter) outerAdapter;
+        hafRecyclerViewAdapter.removeFooterView();
+    }
+
+
+    /**
+     * replace the RecyclerView.ViewHolder.getLayoutPosition()
      *
      * @param recyclerView
      * @param holder
-     * @return
+     * @return layout position
      */
     public static int getLayoutPosition(RecyclerView recyclerView, RecyclerView.ViewHolder holder) {
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
         if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
-
-            int headerViewCounter = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderViewsCount();
-            if (headerViewCounter > 0) {
-                return holder.getLayoutPosition() - headerViewCounter;
-            }
+            return holder.getLayoutPosition() - (((HeaderAndFooterRecyclerViewAdapter) outerAdapter).hasHeader() ? 1 : 0);
         }
-
         return holder.getLayoutPosition();
     }
 
     /**
-     * 请使用本方法替代RecyclerView.ViewHolder的getAdapterPosition()方法
+     * replace the RecyclerView.ViewHolder.getAdapterPosition()
      *
      * @param recyclerView
      * @param holder
-     * @return
+     * @return adapter position
      */
     public static int getAdapterPosition(RecyclerView recyclerView, RecyclerView.ViewHolder holder) {
         RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
         if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
-
-            int headerViewCounter = ((HeaderAndFooterRecyclerViewAdapter) outerAdapter).getHeaderViewsCount();
-            if (headerViewCounter > 0) {
-                return holder.getAdapterPosition() - headerViewCounter;
-            }
+            return holder.getAdapterPosition() - (((HeaderAndFooterRecyclerViewAdapter) outerAdapter).hasHeader() ? 1 : 0);
         }
 
         return holder.getAdapterPosition();
+    }
+
+    /**
+     * get the rel adapter item count
+     *
+     * @param recyclerView
+     * @return rel ttem count
+     */
+    public static int getRelItemCount(RecyclerView recyclerView) {
+        RecyclerView.Adapter outerAdapter = recyclerView.getAdapter();
+        if (outerAdapter != null && outerAdapter instanceof HeaderAndFooterRecyclerViewAdapter) {
+            return outerAdapter.getItemCount() - (((HeaderAndFooterRecyclerViewAdapter) outerAdapter).hasHeader() ? 1 : 0) - (((HeaderAndFooterRecyclerViewAdapter) outerAdapter).hasFooter() ? 1 : 0);
+        }
+
+        return outerAdapter.getItemCount();
+    }
+
+    private static int findMin(int[] firstPositions) {
+        int min = firstPositions[0];
+        for (int value : firstPositions) {
+            if (value < min) {
+                min = value;
+            }
+        }
+        return min;
+    }
+
+    private static int findMax(int[] lastPositions) {
+        int max = lastPositions[0];
+        for (int value : lastPositions) {
+            if (value > max) {
+                max = value;
+            }
+        }
+        return max;
     }
 }

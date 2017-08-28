@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/action_add_header"
+        android:orderInCategory="100"
+        android:title="@string/menu_add_header"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_remove_header"
+        android:orderInCategory="100"
+        android:title="@string/menu_remove_header"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_add_footerer"
+        android:orderInCategory="100"
+        android:title="@string/menu_add_footerer"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_remove_footer"
+        android:orderInCategory="100"
+        android:title="@string/menu_remove_footer"
+        app:showAsAction="never" />
+</menu>

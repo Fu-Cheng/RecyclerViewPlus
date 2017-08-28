@@ -1,3 +1,19 @@
 <resources>
+
     <string name="app_name">RecyclerViewPlus</string>
+    <string name="test_header_and_footer">Header And Footer</string>
+    <!--    <string name="app_name">RecyclerViewPlus</string>
+        <string name="app_name">RecyclerViewPlus</string>
+        <string name="app_name">RecyclerViewPlus</string>-->
+
+    <string name="header">header</string>
+    <string name="item">item</string>
+    <string name="footer">footer</string>
+
+    <string name="menu_add_header">add_header</string>
+    <string name="menu_add_footerer">add_footerer</string>
+    <string name="menu_remove_header">remove_header</string>
+    <string name="menu_remove_footer">remove_footer</string>
+
+
 </resources>
