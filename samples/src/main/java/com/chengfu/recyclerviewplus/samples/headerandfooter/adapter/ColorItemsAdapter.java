@@ -80,7 +80,6 @@ public class ColorItemsAdapter extends HAFRecyclerViewAdapter {
     }
 
     public void kk() {
-        list.remove(0);
         notifyItemRemoved(getRealNotifyPosition(0));
     }
 }
