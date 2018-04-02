@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  * A recyclerView adapter contain set header and footer
  */
 
-public abstract class HAFRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class HAFRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter {
 
     private static final int TYPE_HEADER_VIEW = -Integer.MAX_VALUE;
     private static final int TYPE_FOOTER_VIEW = -Integer.MAX_VALUE + 1;
@@ -156,7 +156,7 @@ public abstract class HAFRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         return (hasHeader() ? 1 : 0) + (hasFooter() ? 1 : 0) + getItemCount1();
     }
 
-    public abstract RecyclerView.ViewHolder onCreateViewHolder1(ViewGroup parent, int viewType);
+    public abstract VH onCreateViewHolder1(ViewGroup parent, int viewType);
 
     @Override
     public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -169,12 +169,12 @@ public abstract class HAFRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         }
     }
 
-    public abstract void onBindViewHolder1(RecyclerView.ViewHolder holder, int position);
+    public abstract void onBindViewHolder1(VH holder, int position);
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position >= (hasHeader() ? 1 : 0) && position < (hasHeader() ? 1 : 0) + getItemCount1()) {
-            onBindViewHolder1(holder, position - (hasHeader() ? 1 : 0));
+            onBindViewHolder1((VH) holder, position - (hasHeader() ? 1 : 0));
         }
     }
 
@@ -212,7 +212,7 @@ public abstract class HAFRecyclerViewAdapter extends RecyclerView.Adapter<Recycl
         return position + (hasHeader() ? 1 : 0);
     }
 
-    public int getRealAdapterPositions(int positions) {
+    public int getRealAdapterPosition(int positions) {
         return positions - (hasHeader() ? 1 : 0);
     }
 

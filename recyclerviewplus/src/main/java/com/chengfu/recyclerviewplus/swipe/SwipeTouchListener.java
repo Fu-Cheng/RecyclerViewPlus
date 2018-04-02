@@ -158,6 +158,7 @@ public class SwipeTouchListener implements RecyclerView.OnItemTouchListener, OnA
 
 	@Override
 	public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent motionEvent) {
+
 		return handleTouchEvent(motionEvent);
 	}
 
@@ -533,6 +534,13 @@ public class SwipeTouchListener implements RecyclerView.OnItemTouchListener, OnA
 			}
 
 			if (touchedView != null) {
+
+				fgView = touchedView.findViewById(fgViewID);
+				bgView = touchedView.findViewById(bgViewID);
+				if (fgView==null || bgView==null ){
+					return false;
+				}
+
 				touchedX = motionEvent.getRawX();
 				touchedY = motionEvent.getRawY();
 				touchedPosition = rView.getChildAdapterPosition(touchedView);
@@ -546,7 +554,8 @@ public class SwipeTouchListener implements RecyclerView.OnItemTouchListener, OnA
 					fgView = touchedView.findViewById(fgViewID);
 					bgView = touchedView.findViewById(bgViewID);
 					// bgView.getLayoutParams().height = fgView.getHeight();
-					bgView.setMinimumHeight(fgView.getHeight());
+					if (bgView!=null && fgView!=null){
+						bgView.setMinimumHeight(fgView.getHeight());
 
 					/*
 					 * bgVisible is true when the options menu is opened This
@@ -554,15 +563,17 @@ public class SwipeTouchListener implements RecyclerView.OnItemTouchListener, OnA
 					 * Partial view is the view that is still shown on the
 					 * screen if the options width is < device width
 					 */
-					if (bgVisible && fgView != null) {
-						handler.removeCallbacks(mLongPressed);
-						x = (int) motionEvent.getRawX();
-						y = (int) motionEvent.getRawY();
-						fgView.getGlobalVisibleRect(rect);
-						fgPartialViewClicked = rect.contains(x, y);
-					} else {
-						fgPartialViewClicked = false;
+						if (bgVisible && fgView != null) {
+							handler.removeCallbacks(mLongPressed);
+							x = (int) motionEvent.getRawX();
+							y = (int) motionEvent.getRawY();
+							fgView.getGlobalVisibleRect(rect);
+							fgPartialViewClicked = rect.contains(x, y);
+						} else {
+							fgPartialViewClicked = false;
+						}
 					}
+
 				}
 			}
 
@@ -857,7 +868,10 @@ public class SwipeTouchListener implements RecyclerView.OnItemTouchListener, OnA
 				}
 				if (bgView == null) {
 					bgView = touchedView.findViewById(bgViewID);
-					bgView.setVisibility(View.VISIBLE);
+					if (bgView!=null){
+						bgView.setVisibility(View.VISIBLE);
+					}
+
 				}
 				// if fg is being swiped left
 				if (deltaX < touchSlop && !bgVisible) {

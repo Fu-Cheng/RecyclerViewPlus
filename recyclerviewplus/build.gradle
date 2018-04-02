@@ -2,14 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+//    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 6
-        versionName "1.4.0"
+        targetSdkVersion 27
+        versionCode 8
+        versionName "1.6.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -45,18 +45,16 @@ publish {
     userOrg = 'fu-cheng'      //bintray注册的用户名
     groupId = 'com.chengfu.recyclerviewplus'         //compile引用时的第1部分groupId
     artifactId = 'recyclerviewplus'     //compile引用时的第2部分项目名
-    publishVersion = '1.4.0'    //compile引用时的第3部分版本号
+    publishVersion = '1.6.1'    //compile引用时的第3部分版本号
     desc = 'A RecyclerView with header,footer,divider and many other features.'
     //website = 'https://github.com/wzgiceman/Rxbus
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
+    testImplementation 'junit:junit:4.12'
+    api 'com.android.support:recyclerview-v7:27.1.0'
 }

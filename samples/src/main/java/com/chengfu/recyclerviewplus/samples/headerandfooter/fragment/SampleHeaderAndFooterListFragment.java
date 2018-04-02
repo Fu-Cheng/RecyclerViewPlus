@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chengfu.recyclerviewplus.RecyclerViewUtils;
-import com.chengfu.recyclerviewplus.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.chengfu.recyclerviewplus.samples.R;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.adapter.ColorItemsAdapter;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.utils.DensityUtil;
@@ -29,7 +26,6 @@ import com.chengfu.recyclerviewplus.samples.headerandfooter.utils.DensityUtil;
 
 public class SampleHeaderAndFooterListFragment extends Fragment {
 
-    //    private HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter;
     private ColorItemsAdapter colorItemsAdapter;
     private TextView headerView;
     private RecyclerView recyclerView;
@@ -73,7 +69,6 @@ public class SampleHeaderAndFooterListFragment extends Fragment {
         headerView.setGravity(Gravity.CENTER);
         headerView.setText(R.string.header);
         colorItemsAdapter.setHeaderView(headerView, true);
-//        RecyclerViewUtils.setHeaderView(recyclerView, headerView, true);
 
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +86,6 @@ public class SampleHeaderAndFooterListFragment extends Fragment {
         footerView.setGravity(Gravity.CENTER);
         footerView.setText(R.string.footer);
         colorItemsAdapter.setFooterView(footerView, true);
-//        RecyclerViewUtils.setFooterView(recyclerView, footerView, true);
     }
 
     @Override
@@ -104,19 +98,19 @@ public class SampleHeaderAndFooterListFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_add_header) {
             colorItemsAdapter.setHeaderView(headerView, true);
-//            RecyclerViewUtils.setHeaderView(recyclerView, headerView, true);
+
             return true;
         } else if (id == R.id.action_remove_header) {
             colorItemsAdapter.removeHeaderView();
-//            RecyclerViewUtils.removeHeaderView(recyclerView);
+
             return true;
         } else if (id == R.id.action_add_footerer) {
             colorItemsAdapter.setFooterView(footerView, true);
-//            RecyclerViewUtils.setFooterView(recyclerView, footerView, true);
+
             return true;
         } else if (id == R.id.action_remove_footer) {
             colorItemsAdapter.removeFooterView();
-//            RecyclerViewUtils.removeFooterView(recyclerView);
+
             return true;
         }
         return super.onOptionsItemSelected(item);

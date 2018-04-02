@@ -1,26 +1,16 @@
 package com.chengfu.recyclerviewplus.samples.headerandfooter.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.chengfu.recyclerviewplus.RecyclerViewUtils;
-import com.chengfu.recyclerviewplus.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.chengfu.recyclerviewplus.samples.R;
-import com.chengfu.recyclerviewplus.samples.headerandfooter.adapter.ColorItemsAdapter;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.fragment.SampleHeaderAndFooterGridFragment;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.fragment.SampleHeaderAndFooterListFragment;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.fragment.SampleHeaderAndFooterStaggeredFragment;
-import com.chengfu.recyclerviewplus.samples.headerandfooter.utils.DensityUtil;
 
 /**
  * Created by ChengFu on 2017/8/18.
