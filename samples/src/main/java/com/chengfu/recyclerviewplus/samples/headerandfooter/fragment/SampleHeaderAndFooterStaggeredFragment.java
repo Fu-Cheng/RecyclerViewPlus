@@ -16,10 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chengfu.recyclerviewplus.RecyclerViewUtils;
-import com.chengfu.recyclerviewplus.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.chengfu.recyclerviewplus.samples.R;
-import com.chengfu.recyclerviewplus.samples.headerandfooter.adapter.ColorItemsAdapter;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.adapter.StaggeredColorItemsAdapter;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.utils.DensityUtil;
 
@@ -29,7 +26,6 @@ import com.chengfu.recyclerviewplus.samples.headerandfooter.utils.DensityUtil;
 
 public class SampleHeaderAndFooterStaggeredFragment extends Fragment {
 
-    //    private HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter;
     private StaggeredColorItemsAdapter colorItemsAdapter;
     private TextView headerView;
     private RecyclerView recyclerView;
@@ -71,7 +67,6 @@ public class SampleHeaderAndFooterStaggeredFragment extends Fragment {
         headerView.setGravity(Gravity.CENTER);
         headerView.setText(R.string.header);
         colorItemsAdapter.setHeaderView(headerView, true);
-//        RecyclerViewUtils.setHeaderView(recyclerView, headerView, true);
 
         footerView = new TextView(getActivity());
         footerView.setBackgroundColor(Color.parseColor("#FF4081"));
@@ -82,7 +77,6 @@ public class SampleHeaderAndFooterStaggeredFragment extends Fragment {
         footerView.setGravity(Gravity.CENTER);
         footerView.setText(R.string.footer);
         colorItemsAdapter.setFooterView(footerView, true);
-//        RecyclerViewUtils.setFooterView(recyclerView, footerView, true);
     }
 
     @Override
@@ -95,19 +89,15 @@ public class SampleHeaderAndFooterStaggeredFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_add_header) {
             colorItemsAdapter.setHeaderView(headerView, true);
-//            RecyclerViewUtils.setHeaderView(recyclerView, headerView, true);
             return true;
         } else if (id == R.id.action_remove_header) {
             colorItemsAdapter.removeHeaderView();
-//            RecyclerViewUtils.removeHeaderView(recyclerView);
             return true;
         } else if (id == R.id.action_add_footerer) {
             colorItemsAdapter.setFooterView(footerView, true);
-//            RecyclerViewUtils.setFooterView(recyclerView, footerView, true);
             return true;
         } else if (id == R.id.action_remove_footer) {
             colorItemsAdapter.removeFooterView();
-//            RecyclerViewUtils.removeFooterView(recyclerView);
             return true;
         }
         return super.onOptionsItemSelected(item);

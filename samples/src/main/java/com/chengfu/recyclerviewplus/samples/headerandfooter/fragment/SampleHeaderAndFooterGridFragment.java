@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.chengfu.recyclerviewplus.RecyclerViewUtils;
-import com.chengfu.recyclerviewplus.adapter.HeaderAndFooterRecyclerViewAdapter;
 import com.chengfu.recyclerviewplus.samples.R;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.adapter.ColorItemsAdapter;
 import com.chengfu.recyclerviewplus.samples.headerandfooter.utils.DensityUtil;
@@ -27,7 +25,6 @@ import com.chengfu.recyclerviewplus.samples.headerandfooter.utils.DensityUtil;
 
 public class SampleHeaderAndFooterGridFragment extends Fragment {
 
-    //    private HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter;
     private ColorItemsAdapter colorItemsAdapter;
     private RecyclerView recyclerView;
     private TextView headerView;
@@ -60,7 +57,6 @@ public class SampleHeaderAndFooterGridFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         colorItemsAdapter = new ColorItemsAdapter(getActivity(), 30);
-//        headerAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(colorItemsAdapter);
         recyclerView.setAdapter(colorItemsAdapter);
 
         headerView = new TextView(getActivity());
@@ -72,7 +68,6 @@ public class SampleHeaderAndFooterGridFragment extends Fragment {
         headerView.setGravity(Gravity.CENTER);
         headerView.setText(R.string.header);
         colorItemsAdapter.setHeaderView(headerView, true);
-//        RecyclerViewUtils.setHeaderView(recyclerView, headerView, true);
 
         footerView = new TextView(getActivity());
         footerView.setBackgroundColor(Color.parseColor("#FF4081"));
@@ -83,7 +78,6 @@ public class SampleHeaderAndFooterGridFragment extends Fragment {
         footerView.setGravity(Gravity.CENTER);
         footerView.setText(R.string.footer);
         colorItemsAdapter.setFooterView(footerView, true);
-//        RecyclerViewUtils.setFooterView(recyclerView, footerView, true);
     }
 
     @Override
@@ -96,19 +90,15 @@ public class SampleHeaderAndFooterGridFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_add_header) {
             colorItemsAdapter.setHeaderView(headerView, true);
-//            RecyclerViewUtils.setHeaderView(recyclerView, headerView, true);
             return true;
         } else if (id == R.id.action_remove_header) {
             colorItemsAdapter.removeHeaderView();
-//            RecyclerViewUtils.removeHeaderView(recyclerView);
             return true;
         } else if (id == R.id.action_add_footerer) {
             colorItemsAdapter.setFooterView(footerView, true);
-//            RecyclerViewUtils.setFooterView(recyclerView, footerView, true);
             return true;
         } else if (id == R.id.action_remove_footer) {
             colorItemsAdapter.removeFooterView();
-//            RecyclerViewUtils.removeFooterView(recyclerView);
             return true;
         }
         return super.onOptionsItemSelected(item);
